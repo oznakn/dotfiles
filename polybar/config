@@ -56,7 +56,7 @@ font-1 = "Noto Sans Mono:size=10;1"
 font-2 = "Noto Sans Symbols:size=10;1"
 font-3 = "Noto Sans Symbols2:size=10;1"
 
-modules-left = time i3 xwindow
+modules-left = date i3 xwindow
 modules-center = xkeyboard 
 modules-right = pulseaudio-sink pulseaudio filesystem cpu memory temperature battery
 
