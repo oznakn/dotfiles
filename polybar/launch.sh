@@ -6,19 +6,12 @@ killall -q polybar
 # Wait until the processes have been shut down
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 if type "xrandr"; then
-	for m in $(xrandr --query | grep " connected" | cut -d " " -f1); do
-		echo "new"
+	if [[ $(xrandr --query | grep "HDMI2 connected primary" | wc -l) == 1 ]]; then
+  		MONITOR="eDP1" TRAYPOS="right" polybar --reload main &
+	elif [[ $(xrandr --query | grep " connected" | cut -d " " -f1 | wc -w) == 2 ]]; then
+		MONITOR="eDP1"  TRAYPOS="right" polybar --reload main &
+	else
+  		MONITOR="eDP1" TRAYPOS="right" polybar --reload main &
+	fi
 
-		if [ "$(xrandr --query | grep "$m" | cut -d " " -f3)" == "primary" ]
-		then
-			MONITOR=$m TRAYPOS="right" polybar --reload main &
-			MONITOR=$m TRAYPOS="right" polybar --reload top &
-		else
-			MONITOR=$m TRAYPOS="" polybar --reload main &
-			MONITOR=$m TRAYPOS="" polybar --reload top &
-		fi
-	done
-else
-  MONITOR="eDP1" polybar --reload main &
-  MONITOR="eDP1" polybar --reload top &
 fi

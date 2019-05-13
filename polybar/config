@@ -7,34 +7,6 @@ primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
-[bar/top]
-monitor = ${env:MONITOR:}
-width = 100%
-height = 2.5%
-radius = 6.0
-fixed-center = true
-bottom = false
-
-wm-restack = i3
-override-redirect = true
-
-background = #00000000
-foreground = ${colors.foreground}
-
-border-size = 0
-line-size = 2
-padding = 1
-module-margin = 1
-
-font-0 = "Noto Sans Mono:size=10;1"
-font-1 = "Noto Sans Mono:size=10;1"
-font-2 = "Noto Sans Symbols:size=10;1"
-font-3 = "Noto Sans Symbols2:size=10;1"
-
-modules-left = spotify
-modules-center = date
-modules-right = eth wlan
-
 [bar/main]
 monitor = ${env:MONITOR:}
 width = 100%
@@ -57,20 +29,12 @@ font-2 = "Noto Sans Symbols:size=10;1"
 font-3 = "Noto Sans Symbols2:size=10;1"
 
 modules-left = date i3 xwindow
-modules-center = xkeyboard 
-modules-right = pulseaudio-sink pulseaudio filesystem cpu memory temperature battery
+modules-center = xkeyboard
+modules-right = pulseaudio eth wlan temperature battery
 
 tray-position = ${env:TRAYPOS:}
 tray-padding = 2
 tray-maxsize = 24
-
-[module/spotify]
-type = custom/script
-interval = 1
-format-prefix = "♬ "
-format = <label>
-exec = python $HOME/.config/polybar/spotify_status.py -f '{artist}: {song}'
-format-underline = #1db954
 
 [module/temperature]
 type = internal/temperature
@@ -98,9 +62,9 @@ blacklist-0 = num lock
 format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-underline = ${colors.secondary}
 
-label-layout =
-;%layout%
 label-layout-underline = ${colors.secondary}
+
+label-layout =  
 
 label-indicator-padding = 2
 label-indicator-margin = 1
@@ -134,22 +98,6 @@ bar-volume-empty = ─
 bar-volume-empty-font = 2
 bar-volume-empty-foreground = ${colors.foreground-alt}
 
-[module/pulseaudio-sink]
-type = custom/script
-exec = $HOME/.config/polybar/sound.sh
-interval = 10
-
-[module/filesystem]
-type = internal/fs
-mount-0 = /
-interval = 60
-fixed-values = true
-spacing = 4
-
-label-mounted-underline = #0a81f5
-
-label-mounted = %mountpoint% %used%
-
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:30:...%
@@ -168,30 +116,27 @@ label-focused-underline = #fba922
 
 label-unfocused = " %name% "
 label-unfocused-foreground = #555555
-;label-unfocused-foreground = #ffaa00
 
 label-urgent = " %name% "
 label-urgent-underline = #9b0a20
 
 label-visible = " %name% "
-;label-visible-foreground = #555555
 
-[module/cpu]
-type = internal/cpu
+[module/date]
+type = internal/date
 interval = 5
-format-prefix = "💻 "
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #f90000
-label = %percentage:2%%
 
-[module/memory]
-type = internal/memory
-interval = 5
-format-prefix = "🗍 "
+date = %a %d
+date-alt = %a %b %d %Y
+
+time = %H:%M
+time-alt = %H:%M
+
+format-prefix =
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #4bffdc
-label = %gb_used%
-;label = %percentage_used:2%%
+format-underline = #0a6cf5
+
+label = %date% %time%
 
 [module/wlan]
 type = internal/network
@@ -201,7 +146,7 @@ interval = 10
 format-connected = <ramp-signal> <label-connected>
 format-connected-underline = #9f78e1
 
-label-connected = %local_ip% | %essid%
+label-connected = %essid%
 
 label-disconnected =
 
@@ -216,45 +161,12 @@ type = internal/network
 interface = enp4s0
 interval = 10
 
+label-connected = 
+format-disconnected =
+
 format-connected-underline = #55aa55
 format-connected-prefix = "🖧 "
 format-connected-prefix-foreground = ${colors.foreground-alt}
-
-label-connected = %local_ip%
-
-format-disconnected =
-
-[module/date]
-type = internal/date
-interval = 5
-
-date = %a %d
-date-alt = %a %b %d
-
-time = %H:%M
-time-alt = %H:%M
-
-format-prefix =
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #0a6cf5
-
-label = %date% %time%
-
-[module/time]
-type = internal/date
-interval = 5
-
-date = 
-date-alt = "%a %d "
-
-time = %H:%M
-time-alt = %H:%M
-
-format-prefix =
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #0a6cf5
-
-label = %date%%time%
 
 [module/battery]
 type = internal/battery
@@ -281,29 +193,10 @@ label-charging = ⚡ %percentage%%
 label-discharging = %percentage%%
 label-full = " ☀ "
 
-[module/powermenu]
-type = custom/menu
-
-expand-right = true
-
-format-spacing = 1
-
-label-open = "⏻"
-label-open-foreground = ${colors.secondary}
-label-close = cancel
-label-close-foreground = ${colors.secondary}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
-
-menu-0-0 = power off
-menu-0-0-exec = poweroff
-menu-0-1 = reboot
-menu-0-1-exec = reboot
+[settings]
+screenchange-reload = true
 
 [global/wm]
 margin-top = 0
-
-[settings]
-screenchange-reload = true
 
 ; vim:ft=dosini
