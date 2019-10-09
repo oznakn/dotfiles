@@ -1,0 +1,35 @@
+#! /bin/sh
+
+xsetroot -cursor_name left_ptr &
+
+sxhkd &
+compton -b --config $HOME/.config/compton.conf
+thunar --daemon &
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+blueman-applet &
+nm-applet &
+$HOME/.fehbg
+pgrep -xu "$USER" xautolock >/dev/null || xautolock -locker "betterlockscreen -l" -time 10 &
+
+mons -e left --primary HDMI2
+
+$HOME/.config/polybar/launch.sh
+
+if [[ $(xrandr --query | grep "HDMI2 connected" | wc -l) == 1 ]]; then
+	bspc monitor HDMI2 -d 1 2 3 4 5
+	bspc monitor eDP1 -d 6 7 8 9 10
+	bspc monitor eDP1 -s HDMI2
+else
+	bspc monitor -d 1 2 3 4 5 6 7 8 9 10
+fi
+
+bspc config border_width 1
+bspc config window_gap 8
+
+bspc config split_ratio 0.50
+bspc config borderless_monocle true
+bspc config gapless_monocle true
+bspc config history_aware_focus true
+bspc config focus_follows_pointer true
+bspc config click_to_focus true
+

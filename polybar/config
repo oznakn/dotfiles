@@ -1,5 +1,5 @@
 [colors]
-background = #000000
+background = #00000000
 background-alt = #444
 foreground = #dfdfdf
 foreground-alt = #888
@@ -13,7 +13,7 @@ width = 100%
 height = 2.5%
 radius = 0
 fixed-center = true
-bottom = true
+bottom = false
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -28,13 +28,15 @@ font-1 = "Noto Sans Mono:size=10;1"
 font-2 = "Noto Sans Symbols:size=10;1"
 font-3 = "Noto Sans Symbols2:size=10;1"
 
-modules-left = date i3 xwindow
+modules-left = powermenu date bspwm xwindow
 modules-center = xkeyboard
 modules-right = pulseaudio wlan cpu filesystem memory temperature battery
 
-tray-position = right
+tray-position = ${env:TRAYPOS:}
 tray-padding = 4
-tray-maxsize = 24
+tray-transparent = true
+
+wm-restack = bspwm
 
 [module/temperature]
 type = internal/temperature
@@ -102,8 +104,8 @@ bar-volume-empty-foreground = ${colors.foreground-alt}
 type = internal/xwindow
 label = %title:0:30:...%
 
-[module/i3]
-type = internal/i3
+[module/bspwm]
+type = internal/bspwm
 
 pin-workspaces = false
 enable-click = true
@@ -111,16 +113,16 @@ enable-scroll = false
 
 index-sort = true
 
-label-focused = " %index% "
 label-focused-underline = #fba922
-
-label-unfocused = " %name% "
-label-unfocused-foreground = #555555
-
-label-urgent = " %name% "
+# label-occupied-foreground = #77ffffff
+label-empty-foreground = #77ffffff
 label-urgent-underline = #9b0a20
 
+label-focused = " %name% "
 label-visible = " %name% "
+label-occupied = " %name% "
+label-urgent = " %name% "
+label-empty = " %name% "
 
 [module/date]
 type = internal/date
@@ -220,6 +222,25 @@ spacing = 4
 label-mounted-underline = #0a81f5
 
 label-mounted = %mountpoint% %used%
+
+[module/powermenu]
+type = custom/menu
+
+expand-right = true
+
+format-spacing = 1
+
+label-open = ⏻
+label-open-foreground = #ffffff
+label-close = ⏻ cancel
+label-close-foreground = #ffffff
+label-separator = |
+label-separator-foreground = ${colors.foreground-alt}
+
+menu-0-0 = reboot
+menu-0-0-exec = reboot
+menu-0-1 = power off
+menu-0-1-exec = poweroff
 
 [settings]
 screenchange-reload = true
