@@ -4,7 +4,7 @@
 
 # terminal emulator
 super + Return
-	WINIT_HIDPI_FACTOR=1.4 alacritty
+	WINIT_HIDPI_FACTOR=1.5 alacritty
 
 # program launcher
 super + @space
@@ -13,6 +13,18 @@ super + @space
 # rofi
 super + F1
 	rofi -show combi
+
+# chrome
+super + F2
+	firefox
+
+# thunar
+super + F3
+	thunar
+
+# code
+super + F4
+	code
 
 # make sxhkd reload its configuration files:
 super + Escape

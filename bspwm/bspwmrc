@@ -6,6 +6,7 @@ sxhkd &
 compton -b --config $HOME/.config/compton.conf
 thunar --daemon &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+/usr/bin/gnome-keyring-daemon --start &
 blueman-applet &
 nm-applet &
 $HOME/.fehbg
@@ -16,9 +17,9 @@ mons -e left --primary HDMI2
 $HOME/.config/polybar/launch.sh
 
 if [[ $(xrandr --query | grep "HDMI2 connected" | wc -l) == 1 ]]; then
-	bspc monitor HDMI2 -d 1 2 3 4 5
-	bspc monitor eDP1 -d 6 7 8 9 10
-	bspc monitor eDP1 -s HDMI2
+	bspc monitor HDMI2 -d 1 2 3 4 5 6
+	bspc monitor eDP1 -d 7 8 9 10
+ 	bspc monitor eDP1 -s HDMI2
 else
 	bspc monitor -d 1 2 3 4 5 6 7 8 9 10
 fi
