@@ -1,5 +1,7 @@
 #! /bin/sh
 
+export WORK_MODE="left"
+
 xsetroot -cursor_name left_ptr &
 
 sxhkd &
@@ -12,14 +14,30 @@ nm-applet &
 $HOME/.fehbg
 pgrep -xu "$USER" xautolock >/dev/null || xautolock -locker "betterlockscreen -l" -time 10 &
 
-mons -e left --primary HDMI2
+if [[ "$WORK_MODE" == "left" ]]; then
+	mons -e left --primary HDMI2
+elif [[ "$WORK_MODE" == "top" ]]; then
+	mons -e top --primary eDP1
+elif [[ "$WORK_MODE" == "dup" ]]; then
+	mons -d --primary eDP1
+fi
 
 $HOME/.config/polybar/launch.sh
 
 if [[ $(xrandr --query | grep "HDMI2 connected" | wc -l) == 1 ]]; then
-	bspc monitor HDMI2 -d 1 2 3 4 5 6
-	bspc monitor eDP1 -d 7 8 9 10
- 	bspc monitor eDP1 -s HDMI2
+	if [[ "$WORK_MODE" == "left" ]]; then
+		bspc monitor HDMI2 -d 1 2 3 4 5 6
+		bspc monitor eDP1 -d 7 8 9 10
+		bspc monitor eDP1 -s HDMI2
+	elif [[ "$WORK_MODE" == "top" ]]; then
+		bspc monitor HDMI2 -d 7 8 9 10
+		bspc monitor eDP1 -d 1 2 3 4 5 6
+		bspc monitor eDP1 -s HDMI2
+	elif [[ "$WORK_MODE" == "dup" ]]; then
+		bspc monitor eDP1 -d 1 2 3 4 5 6 7 8 9 10
+		bspc monitor HDMI2 -d
+		bspc monitor eDP1 -s HDMI2
+	fi
 else
 	bspc monitor -d 1 2 3 4 5 6 7 8 9 10
 fi

@@ -141,6 +141,9 @@ XF86AudioRaiseVolume
 XF86AudioLowerVolume 
 	pactl -- set-sink-volume $(pacmd info | grep "Default sink name" | cut -d ' ' -f4) -5%
 
+XF86AudioMute
+	pactl -- set-sink-mute $(pacmd info | grep "Default sink name" | cut -d ' ' -f4) toggle
+
 XF86MonBrightnessUp 
 	xbacklight -inc 10
 
