@@ -11,6 +11,7 @@ thunar --daemon &
 /usr/bin/gnome-keyring-daemon --start &
 blueman-applet &
 nm-applet &
+# safeeyes &
 $HOME/.fehbg
 pgrep -xu "$USER" xautolock >/dev/null || xautolock -locker "betterlockscreen -l" -time 10 &
 
